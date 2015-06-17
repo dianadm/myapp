@@ -1,10 +1,11 @@
 package photoblog.connections;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -17,7 +18,8 @@ import photoblog.entity.users.User;
 public class HibernateUtils {
 
     private static SessionFactory sessionFactory;
-    private final static Logger logger = Logger.getLogger(HibernateUtils.class);
+    // log4j2
+    private final static Logger logger = LogManager.getLogger(HibernateUtils.class);
     private StandardServiceRegistry serviceRegistry;
 
     public HibernateUtils() {

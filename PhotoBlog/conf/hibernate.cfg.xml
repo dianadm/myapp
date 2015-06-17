@@ -20,7 +20,7 @@
             root
         </property>
         <property name="hibernate.connection.password">
-      
+            diana1
         </property>
         
     </session-factory>

@@ -16,13 +16,14 @@ import org.slf4j.LoggerFactory;
 public class JDBCUtils {
 
     public String userName = "root";
-    public String password = "";
+    public String password = "diana1";
     public String dbms = "mysql";
     public String serverName = "localhost";
     public int portNumber = 3306;
     public String dbName = "mydatabase";
-    
-    Logger logger = LoggerFactory.getLogger(JDBCUtils.class);
+
+    // slf4j
+    private static Logger logger = LoggerFactory.getLogger(JDBCUtils.class);
 
     private Connection getConnection() throws SQLException {
 
@@ -33,7 +34,7 @@ public class JDBCUtils {
             conn = DriverManager.getConnection(
                     "jdbc:" + this.dbms + "://"
                     + this.serverName
-                    + ":" + this.portNumber + "/" + this.dbName,
+                    + ":" + this.portNumber + "/" + this.dbName +"?user="+userName+"&password="+password,
                     connectionProps);
         } else if (this.dbms.equals("derby")) {
             conn = DriverManager.getConnection(
