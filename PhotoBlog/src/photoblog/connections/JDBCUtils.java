@@ -1,10 +1,10 @@
 package photoblog.connections;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.*;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -21,7 +21,22 @@ public class JDBCUtils {
     private MyConfiguration configuration;
 
     public JDBCUtils() {
-        configuration = new MyConfiguration();
+        configuration = loadConf();
+    }
+
+    public MyConfiguration loadConf() {
+
+        MyConfiguration configuration = new MyConfiguration();
+        Properties props = null;
+        try {
+            props = new Properties();
+            props.load(getClass().getClassLoader().getResourceAsStream("myconf.properties"));
+            configuration = new MyConfiguration(props);
+        } catch (IOException e) {
+            logger.error("Error while reading configuration.", e);
+        }
+
+        return configuration;
     }
 
     private Connection getConnection() throws SQLException {
@@ -52,8 +67,8 @@ public class JDBCUtils {
     public void printAllUsers() {
         try {
             Connection conn = getConnection();
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM USER");
-            ResultSet rs = statement.executeQuery();
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM USER");
             while (rs.next()) {
                 String str1 = rs.getString(1);
                 String str2 = rs.getString(2);
@@ -64,5 +79,22 @@ public class JDBCUtils {
             logger.error("Error while selecting all users.", ex);
         }
 
+    }
+
+    public void printUsersById(int id) {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM USER WHERE id = ?");
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String str1 = rs.getString(1);
+                String str2 = rs.getString(2);
+                String str3 = rs.getString(3);
+                System.out.println("User = " + str1 + ", " + str2 + ", " + str3);
+            }
+        } catch (SQLException ex) {
+            logger.error("Error while selecting all users.", ex);
+        }
     }
 }

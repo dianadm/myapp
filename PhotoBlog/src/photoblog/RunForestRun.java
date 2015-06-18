@@ -37,7 +37,7 @@ public class RunForestRun {
         ApplicationContext context = new ClassPathXmlApplicationContext("/beans.xml");
 
         PhotoBlog blog = (PhotoBlog) context.getBean("blog");
-        blog.getMyUtils().getJdbcUtils().printAllUsers();
+        blog.getMyUtils().getJdbcUtils().printUsersById(1);
         blog.getMyUtils().getUtils().stop();
 
         System.out.println("STOP");

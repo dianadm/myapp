@@ -1,8 +1,7 @@
 package photoblog;
 
-/**
- * Created by dmigasiuk on 2015-06-17.
- */
+import java.util.Properties;
+
 public class MyConfiguration {
 
     private String userName = "root";
@@ -11,6 +10,18 @@ public class MyConfiguration {
     private String serverName = "localhost";
     private int portNumber = 3306;
     private String dbName = "mydatabase";
+
+    public MyConfiguration() {
+    }
+
+    public MyConfiguration(Properties props) {
+        this.userName = props.getProperty("USERNAME");
+        this.password = props.getProperty("PASSWORD");
+        this.dbms = props.getProperty("DBMS");
+        this.serverName = props.getProperty("SERVERNAME");
+        this.portNumber = Integer.parseInt(props.getProperty("PORT"));
+        this.dbName = props.getProperty("DBNAME");
+    }
 
     public String getUserName() {
         return userName;
