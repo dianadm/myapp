@@ -39,49 +39,8 @@ public class HibernateUtils {
 
     }
 
-    public void createNewUser(User user) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            int id = (Integer) session.save(user);
-            tx.commit();
-            logger.info("User saved, [id=" + id + "].");
-        } catch (Exception ex) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("Error while creating new user", ex);
-        } finally {
-            session.close();
-        }
-    }
-
-    public User getUserById(int id) {
-        Session session = sessionFactory.openSession();
-        List<User> users = new ArrayList<>();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            Criteria criteria = session.createCriteria(User.class);
-            criteria.add(Restrictions.eq("id", id));
-            users = criteria.list();
-            tx.commit();
-        } catch (Exception ex) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("Error while creating new user", ex);
-        } finally {
-            session.close();
-        }
-
-        if (users.size()>1) {
-            logger.error("Error, more than one user with id="+id);
-            return null;
-        } else {
-            return users.get(0);
-        }
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 
     public void stop() {

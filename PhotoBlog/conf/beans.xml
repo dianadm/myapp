@@ -24,4 +24,10 @@
     <bean id="blog" class="photoblog.PhotoBlog">
     </bean>
 
+
+    <bean id="userDao" class="photoblog.connections.dao.UserDao">
+        <constructor-arg ref="hibertnateUtils" />
+    </bean>
+
+
 </beans>
