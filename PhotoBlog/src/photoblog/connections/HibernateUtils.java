@@ -2,14 +2,15 @@ package photoblog.connections;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import photoblog.entity.users.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -53,6 +54,33 @@ public class HibernateUtils {
             logger.error("Error while creating new user", ex);
         } finally {
             session.close();
+        }
+    }
+
+    public User getUserById(int id) {
+        Session session = sessionFactory.openSession();
+        List<User> users = new ArrayList<>();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(User.class);
+            criteria.add(Restrictions.eq("id", id));
+            users = criteria.list();
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            logger.error("Error while creating new user", ex);
+        } finally {
+            session.close();
+        }
+
+        if (users.size()>1) {
+            logger.error("Error, more than one user with id="+id);
+            return null;
+        } else {
+            return users.get(0);
         }
     }
 

@@ -23,5 +23,5 @@
     
     <bean id="blog" class="photoblog.PhotoBlog">
     </bean>
-   
+
 </beans>

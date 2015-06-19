@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class PhotoBlog {
 
-    private MyUtils myUtils;
-    
+     private MyUtils myUtils;
+
 //    public PhotoBlog() {
 //        @SuppressWarnings("resource")
 //        ApplicationContext context = new ClassPathXmlApplicationContext("/beans.xml");
@@ -17,14 +17,14 @@ public class PhotoBlog {
 //    }
 
     public PhotoBlog() {
-        
+
     }
-    
+
     @Autowired
     public PhotoBlog(MyUtils myUtils) {
         this.myUtils = myUtils;
     }
-    
+
     public MyUtils getMyUtils() {
         return myUtils;
     }
